@@ -7,3 +7,4 @@
 .vscode/
 lib/
 test/
+compile_commands.json

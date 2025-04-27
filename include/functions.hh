@@ -2,8 +2,13 @@
 #include <AFMotor.h>
 #include <string.h>
 
-void change_motors(String command);
-void get_key_value(
+typedef enum {
+    SERIAL_OK,
+    SERIAL_ERROR
+}serial_state_t;
+
+serial_state_t change_motors(String command);
+serial_state_t get_key_value(
     char *buf,
     const char *target,
     char query,

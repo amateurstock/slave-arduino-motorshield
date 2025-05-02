@@ -17,9 +17,9 @@ void loop() {
         handshake = change_motors(buffer);
 
         if (handshake != SERIAL_OK) {
-            Serial.println("error");
+            Serial.print("errorx");
         } else {
-            Serial.println("ok");
+            Serial.print("okx");
         }
     }
 }

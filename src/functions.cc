@@ -21,8 +21,8 @@ serial_state_t change_motors(String command) {
     int16_t l_tmp = atoi(l_buf);
     int16_t r_tmp = atoi(r_buf);
 
-    grouped_motor_update(m1, m2, l_tmp);
-    grouped_motor_update(m3, m4, r_tmp);
+    grouped_motor_update(m1, m2, r_tmp);
+    grouped_motor_update(m3, m4, l_tmp);
 
     return SERIAL_OK;
 }

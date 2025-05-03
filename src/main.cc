@@ -18,8 +18,6 @@ void loop() {
 
         if (handshake != SERIAL_OK) {
             Serial.print("errorx");
-        } else {
-            Serial.print("okx");
         }
     }
 }

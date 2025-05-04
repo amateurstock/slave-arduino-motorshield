@@ -1,5 +1,5 @@
 #include <HardwareSerial.h>
-#include <AFMotor.h>
+#include "L298N.hh"
 #include <string.h>
 
 typedef enum {
@@ -15,9 +15,4 @@ serial_state_t get_key_value(
     char terminator,
     uint32_t offset
 );
-
-void grouped_motor_update(
-    AF_DCMotor &motor1,
-    AF_DCMotor &motor2,
-    int16_t val
-);
+void motor_command_translator(L298N &motor, int16_t val);

@@ -1,9 +1,15 @@
 #include "functions.hh"
 
-AF_DCMotor m1(1);
-AF_DCMotor m2(2);
-AF_DCMotor m3(3);
-AF_DCMotor m4(4);
+constexpr uint8_t LEFT_LOG1 = 2;
+constexpr uint8_t LEFT_LOG2 = 3;
+constexpr uint8_t LEFT_PWM = 9;
+
+constexpr uint8_t RIGHT_LOG1 = 4;
+constexpr uint8_t RIGHT_LOG2 = 5;
+constexpr uint8_t RIGHT_PWM = 10;
+
+L298N left_motor(LEFT_LOG1, LEFT_LOG2, LEFT_PWM);
+L298N right_motor(RIGHT_LOG1, RIGHT_LOG2, RIGHT_PWM);
 
 serial_state_t change_motors(String command) {
     char l_buf[32] = {0};
@@ -21,8 +27,8 @@ serial_state_t change_motors(String command) {
     int16_t l_tmp = atoi(l_buf);
     int16_t r_tmp = atoi(r_buf);
 
-    grouped_motor_update(m1, m2, r_tmp);
-    grouped_motor_update(m3, m4, l_tmp);
+    motor_command_translator(left_motor, l_tmp);
+    motor_command_translator(right_motor, r_tmp);
 
     return SERIAL_OK;
 }
@@ -55,20 +61,16 @@ serial_state_t get_key_value(
     return SERIAL_OK;
 }
 
-void grouped_motor_update(
-    AF_DCMotor &motor1,
-    AF_DCMotor &motor2,
+void motor_command_translator(
+    L298N &motor,
     int16_t val
 ) {
-    uint8_t cmd = FORWARD;
+    L298N::MotorsType cmd = L298N::FORWARD;
     if (val < 0) {
-        cmd = BACKWARD;
+        cmd = L298N::BACKWARD;
         val = val * -1;
     } else if (val == 0) {
-        cmd = BRAKE;
+        cmd = L298N::STOP;
     }
-    motor1.setSpeed(val);
-    motor1.run(cmd);
-    motor2.setSpeed(val);
-    motor2.run(cmd);
+    motor.updateMotor(cmd, val);
 }

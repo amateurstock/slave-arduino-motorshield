@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "functions.hh"
 
-#define HARDWARE_TEST
+//#define HARDWARE_TEST
 
 #ifndef HARDWARE_TEST
 String buffer;
@@ -21,36 +21,24 @@ void loop() {
         }
     }
 }
-
 #else
 
-extern AF_DCMotor m1;
-extern AF_DCMotor m2;
-extern AF_DCMotor m3;
-extern AF_DCMotor m4;
+L298N test_motor1(2, 3, 9);
+L298N test_motor2(4, 5, 10);
 
 void setup() {
+    Serial.println("Init");
     Serial.begin(9600);
 }
 
 void loop() {
+    test_motor1.updateMotor(L298N::FORWARD, 240);
+    test_motor2.updateMotor(L298N::BACKWARD, 240);
+    delay(5000);
 
-    grouped_motor_update(m1, m2, 192);
-    grouped_motor_update(m3, m4, 192);
-    delay(2000);
-
-    grouped_motor_update(m1, m2, -192);
-    grouped_motor_update(m3, m4, 192);
-    delay(2000);
-
-    grouped_motor_update(m1, m2, 192);
-    grouped_motor_update(m3, m4, -192);
-    delay(2000);
-
-    grouped_motor_update(m1, m2, -192);
-    grouped_motor_update(m3, m4, -192);
-    delay(2000);
-
+    test_motor1.updateMotor(L298N::BACKWARD, 240);
+    test_motor2.updateMotor(L298N::FORWARD, 240);
+    delay(5000);
 }
 
 #endif

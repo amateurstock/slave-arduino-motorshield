@@ -1,11 +1,11 @@
 #include "functions.hh"
 
-constexpr uint8_t LEFT_LOG1 = 2;
-constexpr uint8_t LEFT_LOG2 = 3;
+constexpr uint8_t LEFT_LOG1 = 4;
+constexpr uint8_t LEFT_LOG2 = 5;
 constexpr uint8_t LEFT_PWM = 9;
 
-constexpr uint8_t RIGHT_LOG1 = 4;
-constexpr uint8_t RIGHT_LOG2 = 5;
+constexpr uint8_t RIGHT_LOG1 = 6;
+constexpr uint8_t RIGHT_LOG2 = 7;
 constexpr uint8_t RIGHT_PWM = 10;
 
 L298N left_motor(LEFT_LOG1, LEFT_LOG2, LEFT_PWM);

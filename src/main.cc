@@ -1,14 +1,19 @@
 #include <Arduino.h>
 #include "functions.hh"
+#include "ultrasonic.hh"
 
 //#define HARDWARE_TEST
 
 #ifndef HARDWARE_TEST
 String buffer;
 serial_state_t handshake;
+Ultrasonic ultrasonic1(2, 3, 100, ultrasonic1_fall);
+uint32_t &timestamp = ultrasonic1._start_time;
+char send_buf[64] = {0};
 
 void setup() {
     Serial.begin(9600);
+    timestamp = millis();
 }
 
 void loop() {
@@ -20,7 +25,16 @@ void loop() {
             Serial.print("errorx");
         }
     }
+    if ((millis() - timestamp) >= 50) {
+        timestamp = millis();
+        pull_ultrasonic(ultrasonic1);
+        poll_ultrasonic(ultrasonic1);
+
+        sprintf(send_buf, "d:%ld;x", ultrasonic1._reading);
+        Serial.println(send_buf);
+    }
 }
+
 #else
 
 L298N test_motor1(2, 3, 9);

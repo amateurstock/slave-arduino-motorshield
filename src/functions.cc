@@ -12,8 +12,8 @@ L298N left_motor(LEFT_LOG1, LEFT_LOG2, LEFT_PWM);
 L298N right_motor(RIGHT_LOG1, RIGHT_LOG2, RIGHT_PWM);
 
 serial_state_t change_motors(String command) {
-    char l_buf[32] = {0};
-    char r_buf[32] = {0};
+    static char l_buf[32] = {0};
+    static char r_buf[32] = {0};
     const char *target = command.c_str();
 
     if ((get_key_value(l_buf, target, 'L', ';', 2)) != SERIAL_OK) {
@@ -24,8 +24,8 @@ serial_state_t change_motors(String command) {
         return SERIAL_ERROR;
     }
 
-    int16_t l_tmp = atoi(l_buf);
-    int16_t r_tmp = atoi(r_buf);
+    static int16_t l_tmp = atoi(l_buf);
+    static int16_t r_tmp = atoi(r_buf);
 
     motor_command_translator(left_motor, l_tmp);
     motor_command_translator(right_motor, r_tmp);
